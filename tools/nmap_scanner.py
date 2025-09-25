@@ -130,3 +130,8 @@ def nmap_scan_with_scripts(target: str, start: int = 1, end: int = 1000, extra_a
     ports_range = f"{start}-{end}"
     xml = run_nmap_xml(target, ports=ports_range, extra_args=extra_args)
     return parse_nmap_ports_and_scripts(xml)
+
+def nmap_scan_ports(target, start=1, end=1000, extra_args=""):
+    ports_range = f"{start}-{end}"
+    cmd = f"nmap -sT -T4 -p {ports_range} {extra_args} {target} -oX -"
+    return parse_nmap_xml(run_nmap_xml(target, ports_range, extra_args))
