@@ -222,32 +222,38 @@ document.getElementById("verifyButton").addEventListener("click", () => {
     });
     }, 60000);
 
-  var map = L.map('map').setView([20, 0], 2);
+document.addEventListener("DOMContentLoaded", () => {
+  var map = L.map("map").setView([20, 0], 2);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors",
   }).addTo(map);
 
-  async function loadThreats() {
-    try {
-      let res = await fetch("/api/threats");
-      let threats = await res.json();
-      console.log("Threats received:", threats); // debug log
-      threats.forEach(t => {
-        let marker = L.marker([t.lat, t.lon]).addTo(map);
-        marker.bindPopup(`
-          <b>IP:</b> ${t.ip}<br>
-          <b>Country:</b> ${t.country}<br>
-          <b>City:</b> ${t.city}<br>
-          <b>Service:</b> ${t.service}<br>
-          <b>Port:</b> ${t.port}<br>
-          <b>Risk:</b> ${t.risk}
-        `);
-      });
-    } catch (err) {
-      console.error("Error loading threats:", err);
-    }
+  // Load threats after map is ready
+  loadThreats(map);
+});
+
+async function loadThreats(map) {
+  try {
+    let res = await fetch("/api/threats");
+    let threats = await res.json();
+    console.log("Threats received:", threats);
+    threats.forEach(t => {
+      let marker = L.marker([t.lat, t.lon]).addTo(map);
+      marker.bindPopup(`
+        <b>IP:</b> ${t.ip}<br>
+        <b>Country:</b> ${t.country}<br>
+        <b>City:</b> ${t.city}<br>
+        <b>Service:</b> ${t.service}<br>
+        <b>Port:</b> ${t.port}<br>
+        <b>Risk:</b> ${t.risk}
+      `);
+    });
+  } catch (err) {
+    console.error("Error loading threats:", err);
   }
+}
+
 
 async function loadBlocks() {
   try {
