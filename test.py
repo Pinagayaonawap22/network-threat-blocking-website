@@ -1,0 +1,43 @@
+# controller/vulnerability_scan.py
+import socket
+
+# Dictionary of risky ports with descriptions
+VULNERABLE_PORTS = {
+    21: "FTP (insecure, plain text authentication)",
+    23: "Telnet (insecure, plain text communication)",
+    25: "SMTP (can be abused for spam if misconfigured)",
+    80: "HTTP (no encryption, use HTTPS instead)",
+    110: "POP3 (plain text passwords)",
+    139: "NetBIOS (file sharing risks)",
+    445: "SMB (commonly exploited for ransomware)",
+    1433: "MSSQL (target for brute force attacks)",
+    3306: "MySQL (default root access risks)",
+    3389: "RDP (common brute force target)",
+    5900: "VNC (unsecure remote access)"
+}
+
+def check_vulnerable_ports(host, ports):
+    results = {}
+    for port in ports:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.settimeout(1)
+        try:
+            sock.connect((host, port))
+            if port in VULNERABLE_PORTS:
+                results[port] = f"⚠️ {VULNERABLE_PORTS[port]}"
+            else:
+                results[port] = "✅ Open but not in known vulnerability list"
+        except:
+            results[port] = "❌ Closed/Filtered"
+        finally:
+            sock.close()
+    return results
+
+if __name__ == "__main__":
+    # Example test
+    host = "127.0.0.1"
+    ports_to_test = [21, 22, 23, 80, 443, 3306]
+    scan_results = check_vulnerable_ports(host, ports_to_test)
+
+    for port, status in scan_results.items():
+        print(f"Port {port}: {status}")

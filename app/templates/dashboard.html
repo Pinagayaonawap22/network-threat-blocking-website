@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Automated Threat Intelligence & Response — Advanced Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <script src="{{ url_for('static', filename='dashboard.js') }}" defer></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Automated Threat Intelligence & Response — Advanced Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+  <script src="{{ url_for('static', filename='dashboard.js') }}" defer></script>
+
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">TI</div>
+        <div class="brand-text">
+          <h1>Threat Intelligence Hub</h1>
+          <div class="subtitle">Advanced Automated Threat Detection & Response</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn primary" id="scanButton">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z"/>
+          </svg>
+          Run Deep Scan
+        </button>
+      </div>
+    </header>
+
+    <div class="stats-grid">
+      <div class="stat-card danger">
+        <div class="stat-header">
+          <div class="stat-title">Critical Threats</div>
+          <svg class="stat-icon" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+        </div>
+        <div class="stat-value" id="stat-critical">0%</div>
+        <div class="stat-subtitle">Active high-severity threats detected</div>
+        <div class="stat-trend" style="color: var(--danger);">
+          <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stat-card success">
+        <div class="stat-header">
+          <div class="stat-title">Blocked IPs</div>
+          <svg class="stat-icon" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M11.354 4.646a.5.5 0 0 0-.708 0l-6 6a.5.5 0 0 0 .708.708l6-6a.5.5 0 0 0 0-.708z"/>
+          </svg>
+        </div>
+        <div class="stat-value" id="stat-blocked" >0%</div>
+        <div class="stat-subtitle">Total malicious IPs blocked this week</div>
+        <div class="stat-trend">
+          <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="stat-card warning">
+        <div class="stat-header">
+          <div class="stat-title">Pending Review</div>
+          <svg class="stat-icon" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+          </svg>
+        </div>
+        <div class="stat-value" id= "stat-pending">0%</div>
+        <div class="stat-subtitle">Incidents requiring manual review</div>
+        <div class="stat-trend" style="color: var(--warning);">
+          <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="dashboard-grid">
+      <main>
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Global Threat Map</div>
+              <div class="panel-subtitle">Real-time attack visualization and geolocation data</div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+                  <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+                </svg>
+                Refresh
+              </button>
+              <button class="btn">Fullscreen</button>
+            </div>
+          </div>
+          <div class="threat-map" style="height: 500px; width: 100%; border-radius: 12px; overflow: hidden; position: relative;">
+            <div class="map-overlay" style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: white; padding: 8px; border-radius: 6px; z-index: 1000;">
+              <div>Active Threats: 14</div>
+              <div>Countries: 8</div>
+              <div>Updated: Live</div>
+            </div>
+            <div id="map" style="height: 100%; width: 100%;"></div>
+          </div>
+
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">Live Security Events</div>
+                <div class="panel-subtitle">Real-time system logs and security events</div>
+              </div>
+              <button class="btn">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                </svg>
+                Pause Stream
+              </button>
+            </div>
+            <div class="log-container" id="logContainer">
+                <div id="scanResults"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">Quick Actions</div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <button class="btn primary">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+                </svg>
+                Emergency Block Mode
+              </button>
+              <button class="btn">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1.001.025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
+                  <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
+                  <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+                </svg>
+                Refresh All Feeds
+              </button>
+              <button class="btn" id="verifyButton">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M6 .5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1H9v1.07a7.001 7.001 0 0 1 3.274 12.474l-.974-.45a6.002 6.002 0 0 0-7.845-8.564L3 6.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v2.5a7.001 7.001 0 0 1 4.5-6.43V1H6.5a.5.5 0 0 1-.5-.5z"/>
+                </svg>
+                verifier
+              </button>
+              <button class="btn">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+                Export Report
+              </button>
+              <button class="btn danger">
+                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                  <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                </svg>
+                Clear All Blocks
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <aside class="sidebar">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">Active Blocks</div>
+          </div>
+          <div style="overflow-y: auto; max-height: 300px;">
+            <table class="data-table">
+              <thead>
+                <tr><th>IP Address</th><th>Since</th><th>Risk</th></tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">System Metrics</div>
+          <div style="margin-top: 16px;">
+            <div class="metric-item">
+              <div class="metric-label">CPU Usage</div>
+              <div class="metric-value" id="cpu-usage">0%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="cpu-bar" style="width: 0%;"></div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-label">Memory Usage</div>
+              <div class="metric-value" id="memory-usage">0%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="memory-bar" style="width: 0%;"></div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-label">Disk Usage</div>
+              <div class="metric-value" id="disk-usage">0%</div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="disk-bar" style="width: 0%;"></div>
+            </div>
+
+            <div class="metric-item">
+              <div class="metric-label">Network Traffic</div>
+              <div class="metric-value" id="network-traffic">0 MB / 0 MB</div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+</body>
+</html>
