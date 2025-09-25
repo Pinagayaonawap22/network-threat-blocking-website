@@ -21,10 +21,6 @@
       </div>
       <div class="header-actions">
         <button class="btn primary" id="scanButton">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5z"/>
-          </svg>
           Run Deep Scan
         </button>
       </div>
@@ -92,16 +88,6 @@
               <div class="panel-title">Global Threat Map</div>
               <div class="panel-subtitle">Real-time attack visualization and geolocation data</div>
             </div>
-            <div style="display: flex; gap: 8px;">
-              <button class="btn">
-                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                  <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
-                  <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
-                </svg>
-                Refresh
-              </button>
-              <button class="btn">Fullscreen</button>
-            </div>
           </div>
           <div class="threat-map" style="height: 500px; width: 100%; border-radius: 12px; overflow: hidden; position: relative;">
             <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
@@ -116,12 +102,6 @@
                 <div class="panel-title">Live Security Events</div>
                 <div class="panel-subtitle">Real-time system logs and security events</div>
               </div>
-              <button class="btn">
-                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
-                </svg>
-                Pause Stream
-              </button>
             </div>
             <div class="log-container" id="logContainer">
                 <div id="scanResults"></div>
